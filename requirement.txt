@@ -1,3 +1,5 @@
 numpy
 testresources
 tensorflow
+pyyaml
+h5py
