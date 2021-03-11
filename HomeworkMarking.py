@@ -61,3 +61,6 @@ class HomeworkMarking():
     def evaluate(self, testData, testLabel):
         # self._model.summary()
         self._model.evaluate(testData, testLabel)
+
+    def predict(self, testData):
+        return self._model.predict_classes(testData)

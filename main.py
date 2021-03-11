@@ -10,16 +10,21 @@ from HomeworkMarking import *
 
 
 def load_images_from_folder(folder):
+    folder = os.getcwd() + folder
     images = []
+    grays = []
+    labels = []
     for filename in os.listdir(folder):
-        img = cv2.imread(os.path.join(folder,filename), cv2.IMREAD_GRAYSCALE)
-        img = cv2.resize( img,(28, 28))
-        img=(img/255.0)
-        if img is not None:
+        img = cv2.imread(os.path.join(folder, filename), cv2.IMREAD_GRAYSCALE)
+        # negative the picture and resize it to fit the training data
+        img = cv2.resize(255-img, (28, 28))
+        # cv2.imwrite("./minimize " + str(filename) + ".jpg", img)
+        gray=(img/255.0)
+        if gray is not None and img is not None:
+            labels.append(float(os.path.splitext(filename)[0]))
             images.append(img)
-    return images
-
-folder = r'C:\\Users\Madalina Aldea\Desktop\JU\Machine learning\project1\homeworkMarking\test'
+            grays.append(gray)
+    return images, grays, numpy.array(labels)
     
 def dataPreprocessing():
     (dataTrain, labelTrain), (dataTest, labelTest) = mnist.load_data()
@@ -29,43 +34,41 @@ def dataPreprocessing():
     dataTest = (dataTest / maxVal).reshape(10000, 28, 28, 1)
     return dataTrain, labelTrain, dataTest, labelTest
 
-# def main():
-#     (dataTrain, labelTrain), (dataTest, labelTest) = mnist.load_data()
+def compareResult(predict, images):
+    for pred, img in zip(predict, images):
+        print(pred)
+        cv2.imshow('output', img)
+        cv2.waitKey(0)
 
-#     # normalize datas
-#     maxVal = numpy.max(dataTrain)
-#     dataTrain = (dataTrain / maxVal).reshape(60000, 28, 28, 1)
-#     dataTest = (dataTest / maxVal).reshape(10000, 28, 28, 1)
-
-#     #building model
-#     model = buildModel()
-
-#     model.load_weights("logs/checkpoints/cp1.ckpt")
-
-#     # cpCallBack = tensorflow.keras.callbacks.ModelCheckpoint(filepath="logs/checkpoints/cp1.ckpt", save_weights_only=True, verbose=1)
-
-#     model.fit(dataTrain, labelTrain, batch_size=128, epochs = 10, validation_data=(dataTest, labelTest), callbacks=[cpCallBack])
-#     model.summary()
-#     model.evaluate(dataTest, labelTest)
-#     return 0
+def displayContour():
+    img = cv2.imread('test/testOperation.jpg')
+    # img = cv2.imread('test/childrenDigits/0.png')
+    imgray = 255 - img
+    imgray = cv2.cvtColor(imgray, cv2.COLOR_BGR2GRAY)
+    ret, thresh = cv2.threshold(imgray, 127, 255, 0)
+    contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    print(len(contours))
+    cv2.drawContours(img, contours, 0, (0, 255, 0), 3)
+    cv2.imshow('test', img)
+    cv2.waitKey(0)
 
 def main():
-    # dataTrain, labelTrain, dataTest, labelTest = dataPreprocessing()
-    dataTest = load_images_from_folder(folder)
+    folder = "/test/childrenDigits/"
+    dataTrain, labelTrain, dataTest, labelTest = dataPreprocessing()
+    sourcesImages, dataTest, labelTest = load_images_from_folder(folder)
     dataTest=numpy.array(dataTest).reshape(4,28,28,1)
-    labelTest=[0,1,2,3]
-    labelTest=numpy.array(labelTest)
+
     hm = HomeworkMarking("logs/checkpoints/cp1.ckpt")
-    print("\033[92m Evaluate the Model \033[0m")
     hm.evaluate(dataTest, labelTest)
-    hm.predict(dataTest)
-    # test = load_images_from_folder(folder)
+    predict = hm.predict(dataTest)
+
+    # compareResult(predict, sourcesImages)
 
     # print(test)
     # print(dataTest)
     # print(labelTrain)
-    print(dataTest.shape, dataTest.dtype)
-    print(labelTest.shape, labelTest.dtype)
+    # print(dataTest.shape, dataTest.dtype)
+    # print(labelTest.shape, labelTest.dtype)
     return 0
 
 if __name__ == "__main__":

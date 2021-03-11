@@ -3,3 +3,4 @@ testresources
 tensorflow
 pyyaml
 h5py
+opencv-python
