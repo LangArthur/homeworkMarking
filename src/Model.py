@@ -1,8 +1,8 @@
 #
-# Created on Tue Mar 09 2021
+# Created on Wed Mar 17 2021
 #
 # Arthur Lang
-# HomeworkMarking.py
+# Model.py
 #
 
 from enum import Enum
@@ -14,7 +14,7 @@ from tensorflow.keras.layers import Conv2D, MaxPool2D, Dropout, Flatten, Dense
 #     TRAINING = 0
 #     RUNNING = 1
 
-class HomeworkMarking():
+class Model():
 
     def __init__(self, weightPath = None):
         # self._mode = HMMode.TRAINING
