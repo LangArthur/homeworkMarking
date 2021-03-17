@@ -20,6 +20,11 @@ class ROIDetection():
         self.tmpRoi = [-1, -1, -1, -1]
         self.refImg = None
 
+    def reset(self):
+        self._rois = []
+        self.tmpRoi = [-1, -1, -1, -1]
+        self.refImg = None
+
     def crop(self, img):
         res = []
         for roi in self._rois:

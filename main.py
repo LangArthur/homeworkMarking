@@ -1,8 +1,6 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import numpy
-import tensorflow
-# from tensorflow.keras.datasets import mnist
 import cv2
 import os
 import csv
@@ -53,15 +51,6 @@ def resize(directory):
     # 		grays.append(gray)
     # return images, grays, numpy.array(labels)
 
-
-def dataPreprocessing():
-    (dataTrain, labelTrain), (dataTest, labelTest) = mnist.load_data()
-    # normalize datas
-    maxVal = numpy.max(dataTrain)
-    dataTrain = (dataTrain / maxVal).reshape(60000, 28, 28, 1)
-    dataTest = (dataTest / maxVal).reshape(10000, 28, 28, 1)
-    return dataTrain, labelTrain, dataTest, labelTest
-
 def load_dataset(folder):
     images_train=[]
     labels_train=[]
@@ -90,7 +79,7 @@ def compareResult(predict, images):
         cv2.waitKey(0)
 
 def displayHelp():
-	print("Usage: ./main.py refFile")
+	print("Usage: ./main.py refFile") #TODO finish usage
 
 def checkParameters(parameters):
 	return len(parameters) > 1
