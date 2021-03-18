@@ -38,11 +38,12 @@ class HomeworkMarking():
         for img in data:
             resize = 255 - (cv2.resize(img, (28, 28)))
             res.append(cv2.threshold(resize, 120, 255, cv2.THRESH_BINARY)[1] / 255)
-        return res
+        # return [res]
+        return numpy.reshape(res, (len(res), 28, 28, 1))
 
     def predict(self, pictures):
-        return [3, 7, 9, 9]
-        # data = self.preprocess(pictures)
+        # return [3, 7, 9, 9]
+        data = self.preprocess(pictures)
 
         # data = 255 - numpy.reshape(crops, (len(crops), 28, 28, 1))
         # _, data = cv2.threshold(data, 127, 255, cv2.THRESH_BINARY) / 255
@@ -53,14 +54,15 @@ class HomeworkMarking():
         #     print(numpy.shape(p))
         #     cv2.waitKey(0)
 
-        # return self._model.predict(data)
+        return self._model.predict(data)
 
     def compare(self, current):
         for i in range(len(current)):
             if (current[i] == self._correction[i]):
-                print("Correct!")
+                print("\033[92mCorrect!\033[0m")
             else:
-                print("Incorrect :(")
+                print("\033[95mIncorrect :(\033[0m")
+            print("Your answer was: {} and the correct one was {}.".format(str(current[i]), str(self._correction[i])))
 
     def correct(self):
         infiles = [f for f in listdir(self._inputDir) if isfile(join(self._inputDir, f))]
@@ -68,13 +70,12 @@ class HomeworkMarking():
             print("Correcting file " + toCorrect + "...")
             imgToCorrect = cv2.imread(self._inputDir + toCorrect, cv2.IMREAD_GRAYSCALE)
             crops = self._roiDetector.crop(imgToCorrect)
-            for crop in crops:
-                cv2.imshow(toCorrect, crop)
-                cv2.waitKey(0)
-                cv2.destroyWindow(toCorrect)
             # predict
             prediction = self.predict(crops)
             self.compare(prediction)
+            cv2.imshow("Corection", imgToCorrect)
+            cv2.waitKey(0)
+            
 
     def run(self):
         refImg = cv2.imread(self._refDocPath, cv2.IMREAD_GRAYSCALE)
