@@ -34,6 +34,12 @@ class ROIDetection():
                 print("Warning: Skip the following roi: " + str(roi))
         return res
 
+    def getRoi(self, idx):
+        if (idx < len(self._rois)):
+            return self._rois[idx]
+        else:
+            return -1
+
     def clickCallback(self, event, x, y, flags, param):
         if event == cv2.EVENT_LBUTTONDOWN:
             self.tmpRoi[0] = x
@@ -47,7 +53,7 @@ class ROIDetection():
 
     def askRoi(self, ref):
         status = 0 # value to be return. 0 is to continue process, 1 is for stopping the problem
-        self.refImg = ref.copy()
+        self.refImg = ref.copy() # Copy to avoid square drawing on the picture
         cv2.namedWindow('Reference Image')
         cv2.setMouseCallback('Reference Image', self.clickCallback)
         while(self._askwindow):

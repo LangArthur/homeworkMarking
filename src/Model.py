@@ -38,7 +38,7 @@ class Model():
 
     def buildModel(self):
         model = Sequential([
-            Conv2D(filters = 32, kernel_size=(3,3), activation='relu'),
+            Conv2D(filters = 32, kernel_size=(3,3), activation='relu', input_shape=(28, 28, 1)),
             Conv2D(64, (3, 3), activation='relu'),
             MaxPool2D(2, 2),
             Dropout(0.25),
