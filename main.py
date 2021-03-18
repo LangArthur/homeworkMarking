@@ -85,13 +85,13 @@ def checkParameters(parameters):
 	return len(parameters) > 1
 
 def main():
-	av = sys.argv
-	if (checkParameters(av)):
-		hw = HomeworkMarking(av[1])
-		hw.run()
-	else:
-		displayHelp()
-	return 0
+    av = sys.argv
+    if (checkParameters(av)):
+        hw = HomeworkMarking(av[1])
+        hw.run()
+    else:
+        displayHelp()
+    return 0
 
 
 # def main():

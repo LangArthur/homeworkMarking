@@ -23,6 +23,10 @@ class HomeworkMarking():
         self._roiDetector = ROIDetection()
         self._correction = []
         self._model = Model("logs/checkpoints/cp1.ckpt")
+        self._outputColor = {
+            0: (65, 158, 224),
+            1: (0, 255, 0)
+        }
 
     def __del__(self):
         cv2.destroyAllWindows()
@@ -38,31 +42,33 @@ class HomeworkMarking():
         for img in data:
             resize = 255 - (cv2.resize(img, (28, 28)))
             res.append(cv2.threshold(resize, 120, 255, cv2.THRESH_BINARY)[1] / 255)
-        # return [res]
         return numpy.reshape(res, (len(res), 28, 28, 1))
 
     def predict(self, pictures):
-        # return [3, 7, 9, 9]
         data = self.preprocess(pictures)
-
-        # data = 255 - numpy.reshape(crops, (len(crops), 28, 28, 1))
-        # _, data = cv2.threshold(data, 127, 255, cv2.THRESH_BINARY) / 255
-        # numpy.reshape(data, (len(data), 28, 28, 1))
-        # data = [numpy.asarray(x).reshape(1, 28, 28, 1) for x in data]
-        # for p in data:
-        #     cv2.imshow("test", p)
-        #     print(numpy.shape(p))
-        #     cv2.waitKey(0)
-
         return self._model.predict(data)
 
     def compare(self, current):
+        score = []
         for i in range(len(current)):
             if (current[i] == self._correction[i]):
-                print("\033[92mCorrect!\033[0m")
+                score.append(1)
+                # print("\033[92mCorrect!\033[0m")
             else:
-                print("\033[95mIncorrect :(\033[0m")
-            print("Your answer was: {} and the correct one was {}.".format(str(current[i]), str(self._correction[i])))
+                score.append(0)
+                # print("\033[93mIncorrect :(\033[0m")
+        return score
+            # print("Your answer was: {} and the correct one was {}.".format(str(current[i]), str(self._correction[i])))
+
+    def feedBack(self, img, scores):
+        rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
+        for i, score in enumerate(scores):
+            roi = self._roiDetector.getRoi(i)
+            cv2.rectangle(rgb, (roi[2], roi[3]), (roi[0], roi[1]), self._outputColor[score], 1)
+            cv2.putText(rgb, str(self._correction[i]), (roi[0] + 2, roi[1] + 25), cv2.FONT_HERSHEY_SCRIPT_SIMPLEX, 0.8, self._outputColor[score], 2, cv2.LINE_AA)
+        cv2.imshow('Correction', rgb)
+        cv2.waitKey(0)
+
 
     def correct(self):
         infiles = [f for f in listdir(self._inputDir) if isfile(join(self._inputDir, f))]
@@ -72,10 +78,12 @@ class HomeworkMarking():
             crops = self._roiDetector.crop(imgToCorrect)
             # predict
             prediction = self.predict(crops)
-            self.compare(prediction)
-            cv2.imshow("Corection", imgToCorrect)
-            cv2.waitKey(0)
-            
+            # compare with the input files
+            # show correction
+            score = self.compare(prediction)
+            self.feedBack(imgToCorrect, score)
+            # cv2.imshow("Correction", imgToCorrect)
+            # cv2.waitKey(0)
 
     def run(self):
         refImg = cv2.imread(self._refDocPath, cv2.IMREAD_GRAYSCALE)
