@@ -79,10 +79,13 @@ def compareResult(predict, images):
         cv2.waitKey(0)
 
 def displayHelp():
-	print("Usage: ./main.py refFile") #TODO finish usage
+    print("Usage: ./main.py refFile")
+    print("Correct a set of assignment following a correction.")
+    print("\nrefFile\t\tpath to the correction file.")
+    print("\nBy default, the programm will look for assignments to correct in the folder \"input/\".")
 
 def checkParameters(parameters):
-	return len(parameters) > 1
+    return len(parameters) > 1
 
 def main():
     av = sys.argv
@@ -92,40 +95,6 @@ def main():
     else:
         displayHelp()
     return 0
-
-
-# def main():
-#     # folder = "/test/childrenDigits/"
-#     # dataTrain, labelTrain, dataTest, labelTest = dataPreprocessing()
-#     # sourcesImages, dataTest, labelTest = load_images_from_folder(folder)
-#     # dataTest=numpy.array(dataTest).reshape(4,28,28,1)
-
-#     # hm = HomeworkMarking("logs/checkpoints/cp1.ckpt")
-#     # hm.evaluate(dataTest, labelTest)
-#     # predict = hm.predict(dataTest)
-#     # displayContour()
-#     image_test,labels_test,images_train,labels_train=load_dataset('Double digits resized')
-#     with open('Dataset_csv/train_data', 'w') as train_dataset:
-#         write = csv.writer(train_dataset) 
-#         write.writerow(images_train) 
-#     with open('Dataset_csv/train_label', 'w') as train_label:
-#         write = csv.writer(train_label) 
-#         write.writerow(labels_train) 
-#     with open('Dataset_csv/test_label', 'w') as test_label:
-#         write = csv.writer(test_label) 
-#         write.writerow(labels_test) 
-#     with open('Dataset_csv/test_data', 'w') as test_dataset:
-#         write = csv.writer(test_dataset) 
-#         write.writerow(image_test) 
-
-#     # compareResult(predict, sourcesImages)
-
-#     # print(test)
-#     # print(dataTest)
-#     # print(labelTrain)
-#     # print(dataTest.shape, dataTest.dtype)
-#     # print(labelTest.shape, labelTest.dtype)
-#     return 0
 
 if __name__ == "__main__":
     main()
