@@ -45,7 +45,7 @@ class Model():
             Flatten(),
             Dense(128, activation='relu'),
             Dropout(0.5),
-            Dense(10, activation='softmax'),
+            Dense(100, activation='softmax'),
         ])
 
         model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
