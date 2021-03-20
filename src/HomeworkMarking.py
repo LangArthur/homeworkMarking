@@ -47,6 +47,10 @@ class HomeworkMarking():
     def setInputDir(self, newInputDir):
         self._inputDir = newInputDir
 
+    ## _preprocess
+    # preprocess the data to fit the model
+    # @param data: data to process
+    # @return numpy array of the preprocess data
     def _preprocess(self, data):
         res = []
         for img in data:
