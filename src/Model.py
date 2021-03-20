@@ -37,16 +37,23 @@ class Model():
         self.mode = newMode
 
     def buildModel(self):
-        model = Sequential([
-            Conv2D(filters = 32, kernel_size=(3,3), activation='relu', input_shape=(28, 28, 1)),
-            Conv2D(64, (3, 3), activation='relu'),
-            MaxPool2D(2, 2),
-            Dropout(0.25),
-            Flatten(),
-            Dense(128, activation='relu'),
-            Dropout(0.5),
-            Dense(100, activation='softmax'),
-        ])
+         model = Sequential()
+        model.add(Conv2D(32,(3,3), strides=(1, 1),  activation="relu",input_shape = (28,28,1),data_format = "channels_last", use_bias = True))
+        model.add(Conv2D(32,(3,3), strides=(1, 1),  activation="relu", use_bias = True))
+        model.add(BatchNormalization())
+        model.add(MaxPooling2D(pool_size=(2, 2), strides=(2,2)))
+        model.add(Dropout(0.2))
+
+        model.add(Conv2D(128,(3,3), strides=(1, 1),  activation="relu", use_bias = True))
+        model.add(Conv2D(128,(3,3), strides=(1, 1),  activation="relu", use_bias = True))
+        model.add(BatchNormalization())
+        model.add(MaxPooling2D(pool_size=(2, 2), strides=(2,2)))
+        model.add(Dropout(0.2))
+
+        model.add(Flatten())
+        model.add(Dense(256,activation = "relu", use_bias = True))
+        model.add(Dropout(0.5))
+        model.add(Dense(11,activation = "softmax",use_bias = True))
 
         model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
         return model
@@ -64,3 +71,6 @@ class Model():
 
     def predict(self, testData):
         return self._model.predict_classes(testData)
+    
+    def save(self, path):
+        self._model.save(path)

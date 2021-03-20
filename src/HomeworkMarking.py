@@ -12,8 +12,10 @@ import numpy
 
 from src.ROIDetection import ROIDetection
 from src.Model import Model
+from src.testModel import testModel
 
 from tensorflow.keras.datasets import mnist
+import tensorflow
 
 class HomeworkMarking():
 
@@ -22,7 +24,8 @@ class HomeworkMarking():
         self._inputDir = inputDir
         self._roiDetector = ROIDetection()
         self._correction = []
-        self._model = Model("logs/checkpoints/cp1.ckpt")
+        self._model = testModel()
+        self._model = tensorflow.keras.models.load_model('D:\\JU\\homeworkMarking\\src\\modelTrainedOnChildrensdigit')
         self._outputColor = {
             0: (65, 158, 224),
             1: (0, 255, 0)
@@ -46,7 +49,7 @@ class HomeworkMarking():
 
     def predict(self, pictures):
         data = self.preprocess(pictures)
-        return self._model.predict(data)
+        return self._model.predict_classes(data)
 
     def compare(self, current):
         score = []
@@ -78,6 +81,7 @@ class HomeworkMarking():
             crops = self._roiDetector.crop(imgToCorrect)
             # predict
             prediction = self.predict(crops)
+
             # compare with the input files
             # show correction
             score = self.compare(prediction)
