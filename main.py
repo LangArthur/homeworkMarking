@@ -82,12 +82,17 @@ def compareResult(predict, images):
         cv2.imshow('output', img)
         cv2.waitKey(0)
 
+## displayHelp
+# print help
 def displayHelp():
     print("Usage: ./main.py refFile")
     print("Correct a set of assignment following a correction.")
     print("\nrefFile\t\tpath to the correction file.")
     print("\nBy default, the programm will look for assignments to correct in the folder \"input/\".")
 
+## CheckParameters
+# check if the paramters are good or not
+# @return true or false
 def checkParameters(parameters):
 	return len(parameters) > 1
 
@@ -108,31 +113,33 @@ def to_float(data):
         res.append(float(item))
     res=numpy.array(res)
     return res
+
+
 def main():
-    # av = sys.argv
-    # if (checkParameters(av)):
-    #     hw = HomeworkMarking(av[1])
-    #     hw.run()
-    # else:
-    #     displayHelp()
-    # return 0
-    path = 'D:\\JU\\ML Project\\homeworkMarking\\Double digits resized'
-    images_train,labels_train,images_test,labels_test = load_dataset(path)
+    av = sys.argv
+    if (checkParameters(av)):
+        hw = HomeworkMarking(av[1])
+        hw.run()
+    else:
+        displayHelp()
+    return 0
+    # path = 'D:\\JU\\ML Project\\homeworkMarking\\Double digits resized'
+    # images_train,labels_train,images_test,labels_test = load_dataset(path)
 
-    for i in range(len(images_test)):
-        for j in range(len(images_test[i])):
-            if isinstance(images_test[i][j], str):
-                print(images_test[i][j])
+    # for i in range(len(images_test)):
+    #     for j in range(len(images_test[i])):
+    #         if isinstance(images_test[i][j], str):
+    #             print(images_test[i][j])
 
-    images_train = set_shape(images_train)
-    print(images_train.shape)
-    images_test= set_shape(images_test)
-    print(images_test.shape)
-    labels_train=numpy.array(labels_train)
-    labels_test=numpy.array(labels_test)
+    # images_train = set_shape(images_train)
+    # print(images_train.shape)
+    # images_test= set_shape(images_test)
+    # print(images_test.shape)
+    # labels_train=numpy.array(labels_train)
+    # labels_test=numpy.array(labels_test)
 
-    labels_train=to_float(labels_train)
-    labels_test=to_float(labels_test)
+    # labels_train=to_float(labels_train)
+    # labels_test=to_float(labels_test)
 
     # for item in labels_train:
     #     if isinstance(item, str):
@@ -141,9 +148,9 @@ def main():
     # print((labels_test))
     # print(images_test.shape, images_train.shape,labels_test.shape,labels_train.shape)
 
-    model = Model()
-    model.buildModel()
-    model.train(images_train,labels_train,images_test,labels_test)
+    # model = Model()
+    # model.buildModel()
+    # model.train(images_train,labels_train,images_test,labels_test)
     # print(labels_test[-1])
     # print(labels_train[-1])
     

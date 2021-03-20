@@ -20,10 +20,13 @@ def dataPreprocessing():
     dataTest = (dataTest / maxVal).reshape(10000, 28, 28, 1)
     return dataTrain, labelTrain, dataTest, labelTest
 
+## train
+# do a training session, saving the weights
 def train():
     dataTrain, labelTrain, dataTest, labelTest = dataPreprocessing()
 
     nt = Model()
+    nt.setOutputWeightPath("logs/simple-mnist/")
     nt.train(dataTrain, labelTrain, dataTest, labelTest)
     return 0
 
