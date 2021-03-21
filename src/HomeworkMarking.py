@@ -82,7 +82,8 @@ class HomeworkMarking():
 
     ## _feedBack
     # display feedback on the original picture
-    #
+    # @param img: img on wich the feedback is set
+    # @param scores: result of the evaluation
     def _feedBack(self, img, scores):
         rgb = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
         for i, score in enumerate(scores):
