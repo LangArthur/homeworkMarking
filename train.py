@@ -11,7 +11,8 @@ from tensorflow.keras.datasets import mnist
 
 from src.Model import Model
 
-
+## load_dataset
+# load custom dataset (mnist + children)
 def load_dataset(folder):
     images_train=[]
     labels_train=[]
@@ -68,7 +69,7 @@ def train():
     dataTrain, labelTrain, dataTest, labelTest = dataPreprocessing()
 
     nt = Model()
-    nt.setOutputWeightPath("logs/simple-mnist/")
+    nt.setOutputWeightPath("ressources/weights/retraining-children/")
     nt.train(dataTrain, labelTrain, dataTest, labelTest)
     return 0
 

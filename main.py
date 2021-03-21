@@ -1,15 +1,6 @@
 #!/usr/bin/env python3
 
-import numpy
-import cv2
-import os
-import csv
 import sys
-from numpy import savetxt
-from tensorflow.keras.datasets import mnist
-from train_modelTest import dataPreprocessing
-import tensorflow 
-
 
 from src.HomeworkMarking import *
 

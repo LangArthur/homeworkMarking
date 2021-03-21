@@ -6,16 +6,13 @@
 #
 
 from os import listdir
-from os.path import isfile, join
+from os.path import isfile,  join
+import sys
 import cv2
 import numpy
 
 from src.ROIDetection import ROIDetection
 from src.Model import Model
-from src.testModel import testModel
-
-from tensorflow.keras.datasets import mnist
-import tensorflow
 
 ## HomeworkMarking
 # main class of the Homework marking project
@@ -29,8 +26,7 @@ class HomeworkMarking():
         self._inputDir = inputDir
         self._roiDetector = ROIDetection()
         self._correction = []
-        self._model = testModel()
-        self._model = tensorflow.keras.models.load_model('D:\\JU\\homeworkMarking\\src\\modelTrainedOnChildrensdigit')
+        self._model = Model(model="resources/models/Mnist_with_children")
         self._outputColor = {
             0: (65, 158, 224),
             1: (0, 255, 0)
@@ -81,7 +77,7 @@ class HomeworkMarking():
             else:
                 score.append(0)
         # this print is for checking the algorithm detection
-        print("Your answer was: {} and the correct one was {}.".format(str(current[i]), str(self._correction[i])))
+            print("Your answer was: {} and the correct one was {}.".format(str(current[i]), str(self._correction[i])))
         return score
 
     ## _feedBack
@@ -115,7 +111,9 @@ class HomeworkMarking():
     # run a correction session.
     def run(self):
         refImg = cv2.imread(self._refDocPath, cv2.IMREAD_GRAYSCALE)
-        if (self._roiDetector.askRoi(refImg) == 0):
+        if refImg is None:
+            print("Error: can't open reference file", file=sys.stderr)
+        elif (self._roiDetector.askRoi(refImg) == 0):
             crops = self._roiDetector.crop(refImg)
             self._correction = self._predict(crops)
             self._correct()
