@@ -7,6 +7,7 @@
 #
 
 import numpy
+import os
 from tensorflow.keras.datasets import mnist
 
 from src.Model import Model
@@ -33,7 +34,6 @@ def load_dataset(folder):
                 elif item == "test" and img is not None:
                     images_test.append(img)
                     labels_test.append(number)
-    
     return  images_train, labels_train,images_test,labels_test
 
 def set_shape(data):

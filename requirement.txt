@@ -4,3 +4,4 @@ tensorflow
 pyyaml
 h5py
 opencv-python
+sklearn

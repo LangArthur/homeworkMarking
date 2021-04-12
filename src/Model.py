@@ -16,11 +16,11 @@ class Model():
 
     ## constructor
     # @param weightPath: path where the weights are saved. It will load them automatically
-    # @param model: load a complet model with associated weights (used for retraining for example).
-    def __init__(self, weightPath = None, model = None):
+    # @param model: filepath to load a complet model with associated weights (used for retraining for example).
+    def __init__(self, weightPath = None, modelPath = None):
         self._hasWeight = False
-        if (model != None):
-            self._model = tensorflow.keras.models.load_model(model)
+        if (modelPath != None):
+            self._model = tensorflow.keras.models.load_model(modelPath)
             self._hasWeight = True
         else:
             self._model = self._buildModel()
@@ -64,6 +64,11 @@ class Model():
         cpCallBack = tensorflow.keras.callbacks.ModelCheckpoint(filepath=self._outputWeightPath, save_weights_only=True, verbose=1)
         self._model.fit(data, labels, batch_size=128, epochs = 10, validation_data=(dataTest, labelTest), callbacks=[cpCallBack])
 
+    ## trainWithoutValidation
+    # train the model without saving weights and without validation_data
+    def trainWithoutValidation(self, data, labels):
+        self._model.fit(data, labels, batch_size=128, epochs = 10)
+
     ## fit
     # fit the model without saving the weights
     def fit(self, data, labels, dataTest, labelTest):
@@ -73,7 +78,7 @@ class Model():
     # evaluate the model
     def evaluate(self, testData, testLabel):
         # self._model.summary()
-        self._model.evaluate(testData, testLabel)
+        return self._model.evaluate(testData, testLabel)
 
     ## predict
     # to a prediction on a set of data

@@ -17,6 +17,7 @@ def displayHelp():
 # @return true or false
 def checkParameters(parameters):
 	return len(parameters) > 1
+
 def main():
     av = sys.argv
     if (checkParameters(av)):
