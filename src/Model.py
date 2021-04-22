@@ -7,6 +7,7 @@
 
 from enum import Enum
 import tensorflow
+import numpy
 from tensorflow.keras import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense, BatchNormalization
 
@@ -85,7 +86,8 @@ class Model():
     # @param testData: the data you want to make prediction on
     # @return an array with all the predicted classes
     def predict(self, testData):
-        return self._model.predict_classes(testData)
+        return numpy.argmax(self._model.predict(testData), axis=-1)
+        # return self._model.predict_classes(testData)
     
     ## save
     # save the model in a file
