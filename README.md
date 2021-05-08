@@ -31,6 +31,12 @@ The programm also display the reference number: for example, if the assignment c
 
 A script is available to train again the model. Note that a training session will erase the previous weights!
 
+## Evaluation
+
+To evaluate the models, we provided a script called evaluate.py. There are two modes in it:
+- One doing simple prediction on children dataset and draw a confusion matrix of this evaluation
+- One that run a cross-validation using children dataset.
+
 ## Built With
 
 * [Python 3](https://www.python.org) - Python langage
