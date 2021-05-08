@@ -16,20 +16,11 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 from src.Model import Model
 from src.dataset import load
 
-"""
-#TODO think about how will be the evaluation method:
-
-- generate on test dataset (with children data), test with different training dataset.
-- generate one dataset for training and testing, but change the model we load.
-
-is it enough to return confusion matrix on a cross validation ?
-
-"""
-
 def checkArg(av):
     return len(av) == 2
 
 def displayConfusionMatrix(matrix):
+    print(matrix)
     seaborn.set(font_scale=1.4) # for label size
     seaborn.heatmap(matrix, annot=True, annot_kws={"size": 16}) # font size
     plt.show()
@@ -57,8 +48,13 @@ def evaluate():
 
     data, labels = load(preprocess=True)
 
-    result = crossValidation(numpy.array(data), numpy.array(labels), model)
-    displayConfusionMatrix(numpy.sum(result, axis=0))
+    val = input("Run a cross validation ? [Y]es, [N]o\t")
+    if (val == "Y"):
+        result = crossValidation(numpy.array(data), numpy.array(labels), model)
+        displayConfusionMatrix(numpy.sum(result, axis=0))
+    elif (val == "N"):
+        prediction = model.predict(data)
+        displayConfusionMatrix(confusion_matrix(labels, prediction))
 
 if __name__ == "__main__":
     evaluate()

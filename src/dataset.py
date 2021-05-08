@@ -14,17 +14,13 @@ import numpy
 def load_dataset(folder):
     data = []
     label = []
-    images_train = []
-    labels_train = []
-    images_test = []
-    labels_test = []
     # iterate through each folders
     for digitFolder in os.listdir(folder):
-        if (digitFolder != "unlabeled"):
+        if (digitFolder != "unlabeled" and digitFolder != "10"):
             images_path = os.path.join(folder, digitFolder)
             # iterate throught images
             for image in os.listdir(images_path):
-                img = cv2.imread(os.path.join(images_path,image), cv2.IMREAD_GRAYSCALE)
+                img = cv2.imread(os.path.join(images_path, image), cv2.IMREAD_GRAYSCALE)
                 data.append(img)
                 label.append(int(digitFolder))
     return data, label
