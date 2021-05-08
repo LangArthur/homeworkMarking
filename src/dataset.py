@@ -27,15 +27,6 @@ def load_dataset(folder):
                 img = cv2.imread(os.path.join(images_path,image), cv2.IMREAD_GRAYSCALE)
                 data.append(img)
                 label.append(int(digitFolder))
-                # # push to train tdataset
-                # if item == "train" and img is not None:
-                #     images_train.append(img)
-                #     labels_train.append(int(number))
-                # # push to test tdataset
-                # elif item == "test" and img is not None:
-                #     images_test.append(img)
-                #     labels_test.append(int(number))
-    # return  images_train, labels_train, images_test, labels_test
     return data, label
 
 ## set_shape

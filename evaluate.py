@@ -51,16 +51,14 @@ def crossValidation(data, target, model, split_size=5):
 def evaluate():
     av = sys.argv
     if (not(checkArg(av))):
-        print("Error: invalid number of arguments.", file=sys.stderr)
+        print("Error: invalid number of arguments. Please specified a valid path of a model.", file=sys.stderr)
         return -1
     model = Model(modelPath = av[1])
 
     data, labels = load(preprocess=True)
 
     result = crossValidation(numpy.array(data), numpy.array(labels), model)
-    # print()
     displayConfusionMatrix(numpy.sum(result, axis=0))
-    # return 0
 
 if __name__ == "__main__":
     evaluate()

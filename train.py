@@ -34,7 +34,7 @@ def train():
     dataTrain, labelTrain, dataTest, labelTest = dataPreprocessing()
 
     nt = Model()
-    nt.setOutputWeightPath("ressources/weights/retraining-children/")
+    nt.setOutputWeightPath("ressources/weights/Mnist/")
     nt.train(dataTrain, labelTrain, dataTest, labelTest)
     return 0
 

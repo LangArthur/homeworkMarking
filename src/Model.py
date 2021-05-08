@@ -29,6 +29,7 @@ class Model():
                 self._model.load_weights(weightPath)
                 self._hasWeight = True
         self._outputWeightPath = "weights/lastTraining/cp1.ckpt"
+        self._model.summary()
 
     ## setOutputWeightPath
     # setter for outpout weight directory.
@@ -78,7 +79,6 @@ class Model():
     ## evaluate
     # evaluate the model
     def evaluate(self, testData, testLabel):
-        # self._model.summary()
         return self._model.evaluate(testData, testLabel)
 
     ## predict
@@ -87,7 +87,6 @@ class Model():
     # @return an array with all the predicted classes
     def predict(self, testData):
         return numpy.argmax(self._model.predict(testData), axis=-1)
-        # return self._model.predict_classes(testData)
     
     ## save
     # save the model in a file

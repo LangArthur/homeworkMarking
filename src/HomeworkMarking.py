@@ -26,12 +26,11 @@ class HomeworkMarking():
         self._inputDir = inputDir
         self._roiDetector = ROIDetection()
         self._correction = []
-        self._model = Model(model="resources/models/Mnist_with_children")
-        self._outputColor = {
+        self._model = Model(modelPath="resources/models/Mnist_with_children")
+        self._outputColor = { # 0 is the color when answer is wrong, 1 when it's good
             0: (65, 158, 224),
             1: (0, 255, 0)
         }
-        # 0 is the color when answer is wrong, 1 when it's good
 
     def __del__(self):
         cv2.destroyAllWindows()
