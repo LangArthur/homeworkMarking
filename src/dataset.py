@@ -6,7 +6,6 @@
 #
 
 import os
-import PIL
 import cv2
 import numpy
 from numpy import expand_dims
@@ -22,7 +21,7 @@ def load_dataset(folder):
     label = []
     # iterate through each folders
     for digitFolder in os.listdir(folder):
-        if (digitFolder != "unlabeled" and digitFolder != "10"):
+        if (digitFolder != "unlabeled"):
             images_path = os.path.join(folder, digitFolder)
             # iterate throught images
             for image in os.listdir(images_path):
